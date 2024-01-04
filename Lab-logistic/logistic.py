@@ -93,10 +93,10 @@ class LogisticRegression():
         x_bias = np.concatenate((x, np.ones((x.shape[0], 1))), axis= 1)
 
         # TODO: second, you should compute the probability by invoking sigmoid function
-        prob = sigmoid (np.dot(x_bias, self.w))
+        prob = sigmoid(np.dot(x_bias, np.transpose(self.w)))
 
         # TODO: third, you should compute the prediction (W^T * x >= 0 --> y = 1, else y = -1)
-        pred = np.where(np.dot(x_bias, self.w) >= 0, 1, -1)
+        pred = np.where(np.dot(x_bias, np.transpose(self.w)) >= 0, 1, -1)
 
         return prob,pred
         
@@ -171,11 +171,11 @@ class LogisticRegression():
         # TODO: 1. compute the gradient
         # FIXME 这里梯度有问题，标签是-1 1
         #gradient = np.dot(x.T, sigmoid(np.dot(x, self.w)) - y) /len(y) + 2 * self.reg * np.concatenate((self.w[:-1],[0]))
-        gradient = - np.dot(y / (1 + np.exp(y * np.dot(x, self.w))), x)
+        gradient = - np.dot(y / (1 + np.exp(y * np.dot(x, np.transpose(self.w)))), x)
 
         # /len(y) represents 1/n
         # gradient = gradient / len(y) + self.reg * np.concatenate((self.w[:-1], [0]))
-        gradient = gradient / len(y) + self.reg * self.w
+        gradient = gradient  + self.reg * self.w
 
         # TODO: 2. update the weight 
         self.w -= self.lr * gradient
@@ -198,7 +198,7 @@ class LogisticRegression():
         '''
         # TODO: compute the Logistic Regression loss, including regularization term
         # !! Note that the label y is from {-1, 1}
-        predictions = np.dot(x, self.w)
+        predictions = np.dot(x, np.transpose(self.w))
 
         # Add regularization term
         regularization_term = 0.5 * self.reg * np.linalg.norm(self.w[:-1]**2) # NOTE excluding bias term
