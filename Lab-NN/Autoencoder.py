@@ -31,8 +31,10 @@ class Encoder(nn.Module):
         
         
         # TODO: implement the forward pass
-        x = F.relu(self.pool(self.conv1(x)))#(16,32,12,12)
-        x = F.relu(self.pool(self.conv2(x)))#(16,64,6,6)
+        # x = F.relu(self.pool(self.conv1(x)))#(16,32,12,12)
+        # x = F.relu(self.pool(self.conv2(x)))#(16,64,6,6)
+        x = F.relu(self.conv1(x))
+        x = F.relu(self.conv2(x))
         x = F.relu(self.conv3(x)) #(16,128,6,6)
         x = x.view( x.size(0),-1 )
         v = self.fc1(x)

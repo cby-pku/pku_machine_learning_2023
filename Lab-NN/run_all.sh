@@ -3,16 +3,16 @@
 
 set +x
 
-python MLPAE_train_script.py > ./log/train_MLPAE.txt
+# python MLPAE_train_script.py > ./log/train_MLPAE.txt
 
-python visualization.py --model MLPAE
+# python visualization.py --model MLPAE
 
 
-python AE_train_script.py --model AE > ./log/train_AE.txt
+# python AE_train_script.py --model AE > ./log/train_AE.txt
 
-python visualization.py --model AE
+# python visualization.py --model AE
 
-python random_generation.py --model AE
+# python random_generation.py --model AE
 
 python VAE_train_script.py --model VAE > ./log/train_VAE.txt
 

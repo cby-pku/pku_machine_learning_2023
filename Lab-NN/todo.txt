@@ -1,2 +1,0 @@
-1. 继续降低AE的loss
-2. 继续降低VAE的loss

@@ -45,7 +45,6 @@ model = Graph([
     sigmoid()
 ]
 )
-
 loss_fn_node = MSE()
 
 

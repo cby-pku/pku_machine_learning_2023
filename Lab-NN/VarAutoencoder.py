@@ -17,6 +17,8 @@ class VarEncoder(nn.Module):
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=2, padding=1)
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
         self.fc1 = nn.Linear(128 *IMG_HEIGHT//4*IMG_WIDTH//4, encoding_dim)
+        self.fc2 = nn.Linear(128 *IMG_HEIGHT//4*IMG_WIDTH//4, encoding_dim)
+        self.flat = nn.Flatten()
 
 
     def forward(self, x):
@@ -27,12 +29,15 @@ class VarEncoder(nn.Module):
         '''
         
         # TODO: implement the forward pass
-        x = F.relu(self.pool(self.conv1(x)))#(16,32,12,12)
-        x = F.relu(self.pool(self.conv2(x)))#(16,64,6,6)
+        # x = F.relu(self.pool(self.conv1(x)))#(16,32,12,12)
+        # x = F.relu(self.pool(self.conv2(x)))#(16,64,6,6)
+        x = F.relu(self.conv1(x))#(16,32,12,12)
+        x = F.relu(self.conv2(x))#(16,64,6,6)
         x = F.relu(self.conv3(x)) #(16,128,6,6)
-        x = x.view( x.size(0),-1 )
+        # x = x.view( x.size(0),-1 )
+        x = self.flat(x)
         mu = self.fc1(x)
-        log_var =self.fc1(x)
+        log_var =self.fc2(x)
         return mu, log_var
 
 # Define the Decoder
@@ -62,7 +67,7 @@ class VarDecoder(nn.Module):
         x = self.upsample(x) #(16,64,2,2)
         x = F.relu(self.conv5(x)) #(16,32,12,12)
         x = self.upsample(x) #(16,32,4,4)
-        #x = self.upsample2(x)
+        # x = self.upsample2(x)
         x = torch.sigmoid(self.conv6(x))#(16,3,24,24)
         return x
 

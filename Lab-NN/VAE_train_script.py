@@ -39,7 +39,7 @@ model = model_class(
     encoding_dim=AE_ENCODING_DIM if args.model == "AE" else VAE_ENCODING_DIM,
 )
 optimizer = optim.Adam(model.parameters(), lr=0.001) # TODO: You can change this in Part 3 Step 2, for faster and better convergence.
-scheduler = exponential_decay(initial_learning_rate=0.001, decay_rate=0.085, decay_epochs=20) # TODO: You can change this in Part 3 Step 2, for faster and better convergence.
+scheduler = exponential_decay(initial_learning_rate=0.001, decay_rate=0.095, decay_epochs=12) # TODO: You can change this in Part 3 Step 2, for faster and better convergence.
 #scheduler = CosineAnnealingLR(optimizer, T_max=10)
 training_dataloader, validation_dataloader = create_flower_dataloaders(batch_size, data_root, 24, 24)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
